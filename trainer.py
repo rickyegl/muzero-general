@@ -63,7 +63,7 @@ class Trainer:
         print("Wait for the replay buffer to be filled...\n")
         while ray.get(shared_storage.get_info.remote("num_played_games")) < 1:
             time.sleep(0.1)
-        
+        print("Really Start training...\n")
 
         next_batch = replay_buffer.get_batch.remote()
         # Training loop
