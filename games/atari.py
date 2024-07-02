@@ -141,7 +141,7 @@ class Game(AbstractGame):
         self.game = "Pong"
         self.env = gym.make(self.game+"-v4")
         if seed is not None:
-            self.env.seed(seed)
+            self.env.reset(seed=seed)
 
     def step(self, action):
         """
@@ -153,11 +153,11 @@ class Game(AbstractGame):
         Returns:
             The new observation, the reward and a boolean if the game has ended.
         """
-        observation, reward, done, _ = self.env.step(action)
+        observation, reward, terminated, truncated, info = self.env.step(action)
         observation = cv2.resize(observation, (96, 96), interpolation=cv2.INTER_AREA)
         observation = numpy.asarray(observation, dtype="float32") / 255.0
         observation = numpy.moveaxis(observation, -1, 0)
-        return observation, reward, done
+        return observation, reward, terminated, truncated, info
 
     def legal_actions(self):
         """
@@ -183,7 +183,7 @@ class Game(AbstractGame):
         observation = cv2.resize(observation, (96, 96), interpolation=cv2.INTER_AREA)
         observation = numpy.asarray(observation, dtype="float32") / 255.0
         observation = numpy.moveaxis(observation, -1, 0)
-        return observation
+        return obs,info
 
     def close(self):
         """
