@@ -36,7 +36,8 @@ class MuZeroConfig:
 
 
         ### Self-Play
-        self.num_workers = 350  # Number of simultaneous threads/workers self-playing to feed the replay buffer
+        self.num_workers = 2
+        #self.num_workers = 350  # Number of simultaneous threads/workers self-playing to feed the replay buffer
         self.selfplay_on_gpu = False
         self.max_moves = 27000  # Maximum number of moves if game is not finished before
         self.num_simulations = 50  # Number of future moves self-simulated
@@ -109,7 +110,7 @@ class MuZeroConfig:
         self.use_last_model_value = True  # Use the last model to provide a fresher, stable n-step value (See paper appendix Reanalyze)
         self.reanalyse_on_gpu = False
 
-
+        self.game = "Pong"
 
         ### Adjust the self play / training ratio to avoid over/underfitting
         self.self_play_delay = 0  # Number of seconds to wait after each played game
@@ -139,7 +140,7 @@ class Game(AbstractGame):
     """
 
     def __init__(self, seed=None):
-        self.env = gym.make("Breakout-v4")
+        self.env = gym.make(self.game+"-v4")
         if seed is not None:
             self.env.seed(seed)
 
