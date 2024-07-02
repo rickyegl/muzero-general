@@ -136,9 +136,9 @@ class Game(AbstractGame):
     """
     Game wrapper.
     """
-    self.game = "Pong"
-
+    
     def __init__(self, seed=None):
+        self.game = "Pong"
         self.env = gym.make(self.game+"-v4")
         if seed is not None:
             self.env.seed(seed)
