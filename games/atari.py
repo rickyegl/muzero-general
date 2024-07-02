@@ -157,7 +157,8 @@ class Game(AbstractGame):
         observation = cv2.resize(observation, (96, 96), interpolation=cv2.INTER_AREA)
         observation = numpy.asarray(observation, dtype="float32") / 255.0
         observation = numpy.moveaxis(observation, -1, 0)
-        return observation, reward, terminated, truncated, info
+        done = terminated or truncated
+        return observation, reward, done
 
     def legal_actions(self):
         """
