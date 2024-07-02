@@ -144,6 +144,7 @@ class Game(AbstractGame):
             self.env.reset(seed=seed)
 
     def step(self, action):
+        print("step")
         """
         Apply action to the game.
 
