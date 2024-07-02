@@ -1,7 +1,7 @@
 import datetime
 import pathlib
 
-import gym
+import gymnasium as gym
 import numpy
 import torch
 
@@ -179,11 +179,11 @@ class Game(AbstractGame):
         Returns:
             Initial observation of the game.
         """
-        observation = self.env.reset()
+        observation,info = self.env.reset()
         observation = cv2.resize(observation, (96, 96), interpolation=cv2.INTER_AREA)
         observation = numpy.asarray(observation, dtype="float32") / 255.0
         observation = numpy.moveaxis(observation, -1, 0)
-        return obs,info
+        return observation,info
 
     def close(self):
         """
