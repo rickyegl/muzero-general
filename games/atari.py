@@ -110,8 +110,6 @@ class MuZeroConfig:
         self.use_last_model_value = True  # Use the last model to provide a fresher, stable n-step value (See paper appendix Reanalyze)
         self.reanalyse_on_gpu = False
 
-        self.game = "Pong"
-
         ### Adjust the self play / training ratio to avoid over/underfitting
         self.self_play_delay = 0  # Number of seconds to wait after each played game
         self.training_delay = 0  # Number of seconds to wait after each training step
@@ -138,6 +136,7 @@ class Game(AbstractGame):
     """
     Game wrapper.
     """
+    self.game = "Pong"
 
     def __init__(self, seed=None):
         self.env = gym.make(self.game+"-v4")
