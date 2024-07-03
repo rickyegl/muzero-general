@@ -144,6 +144,7 @@ class SelfPlay:
                 print("Choose action")
                 # Choose the action
                 if opponent == "self" or muzero_player == self.game.to_play():
+                    print("modeling")
                     root, mcts_info = MCTS(self.config).run(
                         self.model,
                         stacked_observations,
@@ -151,6 +152,7 @@ class SelfPlay:
                         self.game.to_play(),
                         True,
                     )
+                    print("selecting")
                     action = self.select_action(
                         root,
                         temperature
@@ -158,6 +160,7 @@ class SelfPlay:
                         or len(game_history.action_history) < temperature_threshold
                         else 0,
                     )
+                    print("ifrender")
 
                     if render:
                         print(f'Tree depth: {mcts_info["max_tree_depth"]}')
@@ -165,6 +168,7 @@ class SelfPlay:
                             f"Root value for player {self.game.to_play()}: {root.value():.2f}"
                         )
                 else:
+                    print("elseing")
                     action, root = self.select_opponent_action(
                         opponent, stacked_observations
                     )
