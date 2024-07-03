@@ -29,11 +29,13 @@ class SelfPlay:
         self.model.eval()
 
     def continuous_self_play(self, shared_storage, replay_buffer, test_mode=False):
+        print(f"Start {self.config.num_workers} workers of SelfPlay")
         while ray.get(
             shared_storage.get_info.remote("training_step")
         ) < self.config.training_steps and not ray.get(
             shared_storage.get_info.remote("terminate")
         ):
+            print(f"Ray get end")
             self.model.set_weights(ray.get(shared_storage.get_info.remote("weights")))
 
             if not test_mode:
@@ -129,6 +131,7 @@ class SelfPlay:
             while (
                 not done and len(game_history.action_history) <= self.config.max_moves
             ):
+                print("Play game")
                 assert (
                     len(numpy.array(observation).shape) == 3
                 ), f"Observation should be 3 dimensionnal instead of {len(numpy.array(observation).shape)} dimensionnal. Got observation of shape: {numpy.array(observation).shape}"
@@ -138,7 +141,7 @@ class SelfPlay:
                 stacked_observations = game_history.get_stacked_observations(
                     -1, self.config.stacked_observations, len(self.config.action_space)
                 )
-
+                print("Choose action")
                 # Choose the action
                 if opponent == "self" or muzero_player == self.game.to_play():
                     root, mcts_info = MCTS(self.config).run(
@@ -174,6 +177,7 @@ class SelfPlay:
 
                 game_history.store_search_statistics(root, self.config.action_space)
 
+                print("Store search statistics")
                 # Next batch
                 game_history.action_history.append(action)
                 game_history.observation_history.append(observation)
